@@ -1,13 +1,13 @@
 # Dependencies
-client/node_modules
+frontend/node_modules
 server/node_modules
 
 # Environment files
-client/.env
+frontend/.env
 server/.env
 
 # Build files
-client/dist
+frontend/dist
 
 # Logs
 *.log
