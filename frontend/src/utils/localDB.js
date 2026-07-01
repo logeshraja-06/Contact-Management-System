@@ -37,6 +37,7 @@ export const getLocalContacts = () => {
   try {
     return JSON.parse(data);
   } catch (e) {
+    console.error("Failed to parse local contacts from localStorage, fallback to seed:", e);
     localStorage.setItem("conex_contacts", JSON.stringify(SEED_CONTACTS));
     return SEED_CONTACTS;
   }

@@ -183,7 +183,7 @@ export default function ContactList({
   return (
     <div className="space-y-8 flex-grow">
       {/* 1. Metrics / Stats Summary Cards */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Card */}
         <div
           onClick={() => setActiveFilter("")}
@@ -563,8 +563,8 @@ export default function ContactList({
               <thead>
                 <tr className="bg-slate-50 dark:bg-slate-950 text-slate-400 text-xs font-semibold tracking-wider border-b border-slate-200 dark:border-slate-800">
                   <th className="py-4 px-6">Lead</th>
-                  <th className="py-4 px-6">Company</th>
-                  <th className="py-4 px-6">Contact Info</th>
+                  <th className="py-4 px-6 hidden md:table-cell">Company</th>
+                  <th className="py-4 px-6 hidden sm:table-cell">Contact Info</th>
                   <th className="py-4 px-6">Status</th>
                   <th className="py-4 px-6 text-right">Actions</th>
                 </tr>
@@ -592,7 +592,7 @@ export default function ContactList({
                     </td>
 
                     {/* Company */}
-                    <td className="py-3.5 px-6 font-medium text-xs">
+                    <td className="py-3.5 px-6 font-medium text-xs hidden md:table-cell">
                       {contact.company ? (
                         <div className="flex items-center gap-1 text-slate-500 dark:text-slate-400">
                           <Building className="w-3.5 h-3.5" />
@@ -604,7 +604,7 @@ export default function ContactList({
                     </td>
 
                     {/* Email / Phone */}
-                    <td className="py-3.5 px-6 text-xs space-y-0.5">
+                    <td className="py-3.5 px-6 text-xs space-y-0.5 hidden sm:table-cell">
                       <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
                         <Mail className="w-3.5 h-3.5" />
                         <span>{contact.email}</span>

@@ -1,6 +1,8 @@
-import { Users, UserCheck, PhoneCall, Archive, Plus, Sun, Moon } from "lucide-react";
+import { Users, UserCheck, PhoneCall, Archive, Plus, Sun, Moon, X } from "lucide-react";
 
 export default function Sidebar({
+  isOpen,
+  onClose,
   activeFilter,
   setActiveFilter,
   counts = { total: 0, Interested: 0, "Follow-up": 0, Closed: 0 },
@@ -30,24 +32,45 @@ export default function Sidebar({
     return counts[id] || 0;
   };
 
+  const handleFilterClick = (id) => {
+    setActiveFilter(id);
+    if (onClose) onClose();
+  };
+
+  const handleAddClick = () => {
+    onAddClick();
+    if (onClose) onClose();
+  };
+
   return (
-    <aside className="w-80 h-screen sticky top-0 flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 backdrop-blur-md px-6 py-8 flex-shrink-0">
+    <aside className={`fixed inset-y-0 left-0 z-50 w-72 md:w-80 md:h-screen md:sticky md:top-0 flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 backdrop-blur-md px-6 py-8 flex-shrink-0 transition-transform duration-300 ease-in-out ${
+      isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+    }`}>
       {/* Brand Logo */}
-      <div className="flex items-center gap-3 mb-10 px-2">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
-          <Users className="w-5 h-5 text-white" />
+      <div className="flex items-center justify-between mb-10 px-2">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
+            <Users className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white font-display">
+              Conex<span className="text-blue-500">.</span>
+            </h1>
+            <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">Smart Contact CRM</p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white font-display">
-            Conex<span className="text-blue-500">.</span>
-          </h1>
-          <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">Smart Contact CRM</p>
-        </div>
+        <button
+          onClick={onClose}
+          className="md:hidden p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer"
+          title="Close Sidebar"
+        >
+          <X className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Main Action Button */}
       <button
-        onClick={onAddClick}
+        onClick={handleAddClick}
         className="w-full mb-8 py-3.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:from-blue-700 active:to-indigo-700 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all cursor-pointer group"
       >
         <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
@@ -64,7 +87,7 @@ export default function Sidebar({
           return (
             <button
               key={item.id}
-              onClick={() => setActiveFilter(item.id)}
+              onClick={() => handleFilterClick(item.id)}
               className={`w-full flex items-center justify-between px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
                 isActive
                   ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"

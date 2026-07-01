@@ -23,7 +23,7 @@ export function Toast({ toast, onClose }) {
 
   return (
     <div
-      className={`flex items-center gap-3 p-4 rounded-xl border shadow-lg max-w-sm animate-toast-in ${bgColors[toast.type]} backdrop-blur-md`}
+      className={`flex items-center gap-3 p-4 rounded-xl border shadow-lg w-full sm:max-w-sm animate-toast-in ${bgColors[toast.type]} backdrop-blur-md`}
     >
       <div className="flex-shrink-0">{icons[toast.type]}</div>
       <p className="text-sm font-medium flex-grow pr-2">{toast.message}</p>
@@ -41,7 +41,7 @@ export default function ToastContainer({ toasts, removeToast }) {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none">
+    <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 z-50 flex flex-col gap-3 pointer-events-none items-end">
       {toasts.map((toast) => (
         <div key={toast.id} className="pointer-events-auto">
           <Toast toast={toast} onClose={removeToast} />

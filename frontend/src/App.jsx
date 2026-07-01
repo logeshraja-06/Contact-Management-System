@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Sidebar from "./components/Sidebar";
 import ContactForm from "./components/ContactForm";
@@ -6,6 +6,7 @@ import ContactList from "./components/ContactList";
 import CustomModal from "./components/CustomModal";
 import ToastContainer from "./components/Toast";
 import { getLocalContacts, saveLocalContacts } from "./utils/localDB";
+import { Menu, Plus, Users } from "lucide-react";
 
 export default function App() {
   // Navigation & Workspace states
@@ -29,6 +30,13 @@ export default function App() {
 
   // Toast Alerts states
   const [toasts, setToasts] = useState([]);
+
+  // Mobile sidebar state
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Mobile navbar scroll tracking
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const lastScrollTop = useRef(0);
 
   // Theme states
   const [theme, setTheme] = useState(() => {
@@ -69,7 +77,7 @@ export default function App() {
         Closed: all.filter((c) => c.status === "Closed").length,
       });
     } catch (err) {
-      console.warn("Backend server unreachable. Falling back to offline client-side storage.");
+      console.warn("Backend server unreachable. Falling back to offline client-side storage.", err);
       setIsOffline(true);
       const all = getLocalContacts();
       setCounts({
@@ -165,10 +173,25 @@ export default function App() {
     }
   };
 
+  const handleScroll = (e) => {
+    const scrollTop = e.currentTarget.scrollTop;
+    // Debounce/threshold of 8px to prevent jittering on mobile inertia scrolls
+    if (Math.abs(lastScrollTop.current - scrollTop) > 8) {
+      if (scrollTop > lastScrollTop.current && scrollTop > 60) {
+        setIsNavbarVisible(false);
+      } else {
+        setIsNavbarVisible(true);
+      }
+    }
+    lastScrollTop.current = scrollTop;
+  };
+
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-200">
       {/* Sidebar Navigation */}
       <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
         activeFilter={activeFilter}
         setActiveFilter={setActiveFilter}
         counts={counts}
@@ -177,10 +200,49 @@ export default function App() {
         toggleTheme={setTheme}
       />
 
+      {/* Sidebar mobile backdrop */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-slate-900/40 dark:bg-slate-950/60 backdrop-blur-xs md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Main Workspace Dashboard */}
-      <main className="flex-grow h-screen overflow-y-auto px-10 py-8 flex flex-col">
+      <main onScroll={handleScroll} className="flex-grow h-screen overflow-y-auto px-4 md:px-10 py-6 md:py-8 flex flex-col">
+        {/* Mobile Top Header */}
+        <div className={`flex md:hidden items-center justify-between p-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 -mx-4 -mt-6 mb-6 shadow-xs sticky top-0 z-30 transition-all duration-300 ease-in-out ${
+          isNavbarVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
+        }`}>
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer"
+            title="Open Sidebar"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-500/20">
+              <Users className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white font-display">
+              Conex.
+            </span>
+            {isOffline && (
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" title="Local Demo Mode (Offline)" />
+            )}
+          </div>
+          <button
+            onClick={handleOpenAddForm}
+            className="p-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white shadow-md shadow-blue-500/25 cursor-pointer"
+            title="Add Lead"
+          >
+            <Plus className="w-4 h-4" />
+          </button>
+        </div>
+
         {/* Workspace Header */}
-        <div className="flex items-center justify-between pb-6 mb-8 border-b border-slate-200/60 dark:border-slate-800/80">
+        <div className="hidden md:flex items-center justify-between pb-6 mb-8 border-b border-slate-200/60 dark:border-slate-800/80">
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white font-display">
               Contacts Workspace

@@ -138,9 +138,10 @@ export default function ContactForm({
 
       {/* Drawer */}
       <div className="relative w-full max-w-md h-full bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 shadow-2xl p-6 flex flex-col justify-between z-10 animate-drawer-in">
-        <div>
+        {/* Scrollable Form Content */}
+        <div className="flex-grow overflow-y-auto mb-6 pr-1 space-y-6">
           {/* Header */}
-          <div className="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800/80 mb-6">
+          <div className="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800/80">
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white font-display">
                 {editContact ? "Edit Contact" : "Add New Contact"}
