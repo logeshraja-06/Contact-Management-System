@@ -67,7 +67,7 @@ export default function App() {
   // Fetch full stats count from database or local fallback
   const fetchStats = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/contacts");
+      const res = await axios.get("https://contact-management-system-rork.onrender.com/contacts");
       const all = res.data;
       setIsOffline(false);
       setCounts({
@@ -159,7 +159,7 @@ export default function App() {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/contacts/${deleteContactId}`);
+      await axios.delete(`https://contact-management-system-rork.onrender.com/contacts/${deleteContactId}`);
       setContacts((prev) => prev.filter((c) => c._id !== deleteContactId));
       setRefreshTrigger((prev) => prev + 1); // refresh statistics
       addToast(`Contact "${deleteContactName}" has been deleted.`, "success");
