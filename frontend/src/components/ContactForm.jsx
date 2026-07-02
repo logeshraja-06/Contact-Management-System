@@ -56,7 +56,7 @@ export default function ContactForm({
     if (!validate()) return;
 
     setLoading(true);
-    
+
     // Offline local fallback flow
     if (isOffline) {
       const local = getLocalContacts();
@@ -95,7 +95,7 @@ export default function ContactForm({
     // Online database flow
     try {
       if (editContact) {
-        const res = await axios.put(`http://localhost:5000/contacts/${editContact._id}`, {
+        const res = await axios.put(`https://contact-management-system-rork.onrender.com/contacts/${editContact._id}`, {
           name,
           company,
           email,
@@ -105,7 +105,7 @@ export default function ContactForm({
         setContacts(contacts.map((c) => (c._id === editContact._id ? res.data : c)));
         addToast("Contact updated successfully!", "success");
       } else {
-        const res = await axios.post("http://localhost:5000/contacts", {
+        const res = await axios.post("https://contact-management-system-rork.onrender.com/contacts", {
           name,
           company,
           email,
@@ -172,11 +172,10 @@ export default function ContactForm({
                 <input
                   type="text"
                   placeholder="John Doe"
-                  className={`pl-10 pr-4 py-2.5 rounded-xl w-full bg-slate-50 dark:bg-slate-950 border text-slate-950 dark:text-slate-50 text-sm outline-none transition-all ${
-                    errors.name
+                  className={`pl-10 pr-4 py-2.5 rounded-xl w-full bg-slate-50 dark:bg-slate-950 border text-slate-950 dark:text-slate-50 text-sm outline-none transition-all ${errors.name
                       ? "border-rose-500 ring-1 ring-rose-500"
                       : "border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                  }`}
+                    }`}
                   value={name}
                   onChange={(e) => {
                     setName(e.target.value);
@@ -218,11 +217,10 @@ export default function ContactForm({
                 <input
                   type="email"
                   placeholder="john@example.com"
-                  className={`pl-10 pr-4 py-2.5 rounded-xl w-full bg-slate-50 dark:bg-slate-950 border text-slate-950 dark:text-slate-50 text-sm outline-none transition-all ${
-                    errors.email
+                  className={`pl-10 pr-4 py-2.5 rounded-xl w-full bg-slate-50 dark:bg-slate-950 border text-slate-950 dark:text-slate-50 text-sm outline-none transition-all ${errors.email
                       ? "border-rose-500 ring-1 ring-rose-500"
                       : "border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                  }`}
+                    }`}
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);

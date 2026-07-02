@@ -66,7 +66,7 @@ export default function ContactList({
 
       const query = `?status=${activeFilter}&search=${search}`;
       try {
-        const fetchPromise = axios.get(`http://localhost:5000/contacts${query}`);
+        const fetchPromise = axios.get(`https://contact-management-system-rork.onrender.com/contacts${query}`);
         // Keep minimum 800ms delay for smooth transitions (as requested in demo spec)
         const delayPromise = new Promise((resolve) => setTimeout(resolve, 800));
         const [res] = await Promise.all([fetchPromise, delayPromise]);
@@ -168,7 +168,7 @@ export default function ContactList({
     }
 
     try {
-      await axios.put(`http://localhost:5000/contacts/${id}`, { status: newStatus });
+      await axios.put(`https://contact-management-system-rork.onrender.com/contacts/${id}`, { status: newStatus });
       setContacts((prev) =>
         prev.map((c) => (c._id === id ? { ...c, status: newStatus } : c))
       );
@@ -187,24 +187,21 @@ export default function ContactList({
         {/* Total Card */}
         <div
           onClick={() => setActiveFilter("")}
-          className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between h-32 group ${
-            activeFilter === ""
+          className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between h-32 group ${activeFilter === ""
               ? "bg-blue-600 border-blue-600 text-white shadow-xl shadow-blue-500/15"
               : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg text-slate-800 dark:text-slate-100"
-          }`}
+            }`}
         >
           <div className="flex items-center justify-between">
             <span
-              className={`p-2.5 rounded-xl ${
-                activeFilter === "" ? "bg-white/10 text-white" : "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400"
-              }`}
+              className={`p-2.5 rounded-xl ${activeFilter === "" ? "bg-white/10 text-white" : "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400"
+                }`}
             >
               <Users className="w-5 h-5" />
             </span>
             <span
-              className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                activeFilter === "" ? "bg-white/20 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
-              }`}
+              className={`text-xs font-semibold px-2 py-0.5 rounded-full ${activeFilter === "" ? "bg-white/20 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
+                }`}
             >
               All
             </span>
@@ -220,28 +217,25 @@ export default function ContactList({
         {/* Interested Card */}
         <div
           onClick={() => setActiveFilter("Interested")}
-          className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between h-32 group ${
-            activeFilter === "Interested"
+          className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between h-32 group ${activeFilter === "Interested"
               ? "bg-amber-500 border-amber-500 text-white shadow-xl shadow-amber-500/15"
               : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg text-slate-800 dark:text-slate-100"
-          }`}
+            }`}
         >
           <div className="flex items-center justify-between">
             <span
-              className={`p-2.5 rounded-xl ${
-                activeFilter === "Interested"
+              className={`p-2.5 rounded-xl ${activeFilter === "Interested"
                   ? "bg-white/10 text-white"
                   : "bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400"
-              }`}
+                }`}
             >
               <UserCheck className="w-5 h-5" />
             </span>
             <span
-              className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                activeFilter === "Interested"
+              className={`text-xs font-semibold px-2 py-0.5 rounded-full ${activeFilter === "Interested"
                   ? "bg-white/20 text-white"
                   : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
-              }`}
+                }`}
             >
               Leads
             </span>
@@ -257,28 +251,25 @@ export default function ContactList({
         {/* Follow-up Card */}
         <div
           onClick={() => setActiveFilter("Follow-up")}
-          className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between h-32 group ${
-            activeFilter === "Follow-up"
+          className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between h-32 group ${activeFilter === "Follow-up"
               ? "bg-indigo-600 border-indigo-650 text-white shadow-xl shadow-indigo-500/15"
               : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg text-slate-800 dark:text-slate-100"
-          }`}
+            }`}
         >
           <div className="flex items-center justify-between">
             <span
-              className={`p-2.5 rounded-xl ${
-                activeFilter === "Follow-up"
+              className={`p-2.5 rounded-xl ${activeFilter === "Follow-up"
                   ? "bg-white/10 text-white"
                   : "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-650 dark:text-indigo-400"
-              }`}
+                }`}
             >
               <PhoneCall className="w-5 h-5" />
             </span>
             <span
-              className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                activeFilter === "Follow-up"
+              className={`text-xs font-semibold px-2 py-0.5 rounded-full ${activeFilter === "Follow-up"
                   ? "bg-white/20 text-white"
                   : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
-              }`}
+                }`}
             >
               Active
             </span>
@@ -294,28 +285,25 @@ export default function ContactList({
         {/* Closed Card */}
         <div
           onClick={() => setActiveFilter("Closed")}
-          className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between h-32 group ${
-            activeFilter === "Closed"
+          className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between h-32 group ${activeFilter === "Closed"
               ? "bg-emerald-600 border-emerald-600 text-white shadow-xl shadow-emerald-500/15"
               : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg text-slate-800 dark:text-slate-100"
-          }`}
+            }`}
         >
           <div className="flex items-center justify-between">
             <span
-              className={`p-2.5 rounded-xl ${
-                activeFilter === "Closed"
+              className={`p-2.5 rounded-xl ${activeFilter === "Closed"
                   ? "bg-white/10 text-white"
                   : "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400"
-              }`}
+                }`}
             >
               <Archive className="w-5 h-5" />
             </span>
             <span
-              className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                activeFilter === "Closed"
+              className={`text-xs font-semibold px-2 py-0.5 rounded-full ${activeFilter === "Closed"
                   ? "bg-white/20 text-white"
                   : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
-              }`}
+                }`}
             >
               Archive
             </span>
@@ -376,22 +364,20 @@ export default function ContactList({
           <div className="bg-slate-50 dark:bg-slate-950 p-1 rounded-xl flex items-center border border-slate-200 dark:border-slate-800">
             <button
               onClick={() => toggleViewMode("grid")}
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === "grid"
+              className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === "grid"
                   ? "bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm"
                   : "text-slate-400 hover:text-slate-650 dark:hover:text-slate-300"
-              }`}
+                }`}
               title="Grid View"
             >
               <Grid className="w-4.5 h-4.5" />
             </button>
             <button
               onClick={() => toggleViewMode("list")}
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === "list"
+              className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === "list"
                   ? "bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm"
                   : "text-slate-400 hover:text-slate-650 dark:hover:text-slate-300"
-              }`}
+                }`}
               title="List/Table View"
             >
               <List className="w-4.5 h-4.5" />
@@ -521,9 +507,8 @@ export default function ContactList({
                   <select
                     value={contact.status}
                     onChange={(e) => handleStatusChange(contact._id, e.target.value)}
-                    className={`pl-3 pr-7 py-1 rounded-full text-xs font-semibold border outline-none cursor-pointer appearance-none transition-all ${
-                      statusStyles[contact.status]
-                    }`}
+                    className={`pl-3 pr-7 py-1 rounded-full text-xs font-semibold border outline-none cursor-pointer appearance-none transition-all ${statusStyles[contact.status]
+                      }`}
                   >
                     <option value="Interested">Interested</option>
                     <option value="Follow-up">Follow-up</option>
@@ -623,9 +608,8 @@ export default function ContactList({
                         <select
                           value={contact.status}
                           onChange={(e) => handleStatusChange(contact._id, e.target.value)}
-                          className={`pl-2.5 pr-6 py-0.5 rounded-full text-[11px] font-semibold border outline-none cursor-pointer appearance-none transition-all ${
-                            statusStyles[contact.status]
-                          }`}
+                          className={`pl-2.5 pr-6 py-0.5 rounded-full text-[11px] font-semibold border outline-none cursor-pointer appearance-none transition-all ${statusStyles[contact.status]
+                            }`}
                         >
                           <option value="Interested">Interested</option>
                           <option value="Follow-up">Follow-up</option>
